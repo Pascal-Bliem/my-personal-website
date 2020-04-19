@@ -150,7 +150,7 @@ padding-top: 2em;
 
 @media (max-width: 1028px) {
     body {
-        font-size: 30px;
+        font-size: 38px;
     }
 
     .navbar {
@@ -173,4 +173,19 @@ padding-top: 2em;
         width: 75%;
         padding: 7% 0;
     }  
+
+    .about-me-top {
+        text-align: center;
+        padding: 5% 5% 1%;
+    }
+
+    .skill-icon {
+        
+        float: none;
+        padding-bottom: 7%;
+        
+    }
+    .bio-box {
+        padding: 5% 5% 1%;
+    }
 }
