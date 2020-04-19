@@ -169,6 +169,10 @@ padding-top: 2em;
         font-size: 1.5em;
     }
 
+    .title-image {
+        width: 50%;
+    }
+
     .me-image {
         width: 75%;
         padding: 7% 0;
