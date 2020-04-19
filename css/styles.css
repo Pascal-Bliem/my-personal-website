@@ -145,12 +145,17 @@ padding-top: 2rem;
     font-size: 0.75rem;
 }
 
-/*
-@media (min-width: 600px) {
+
+@media (max-width: 500px) {
 
     body, .contact-desc, .contact-icon {
         font-size: 3rem;
     }
+    
+    .me-image {
+        width: 75%;
+    }
+
     .section-heading{
         font-size: 4rem;
     }
@@ -162,5 +167,5 @@ padding-top: 2rem;
     }
 
 }
-*/
+
 
