@@ -1,0 +1,46 @@
+<%- include("partials/header") -%> 
+
+
+<div class="container mt-5 card-container">
+    <h1>Compose</h1>
+  
+    <div class="row card-row">
+      <div class="col-sm-10 ml-auto mr-auto">
+        <div class="card">
+          <div class="card-body">
+          
+            <form class="" action="/compose" method="post">
+                <div class="form-group">
+                  <label>Title</label>
+                  <input class="form-control" type="text" name="postTitle">
+                </div>
+                <div class="form-group">
+                  <label>Sub-Title</label>
+                  <input class="form-control" type="text" name="postSubTitle">
+                </div>
+                <div class="form-group">
+                  <label>Publish date</label>
+                  <input class="form-control" type="date" value="<%=currDate%>" data-format="dd-mm-yyyy" name="postDatePublished">
+                </div>
+                <div class="form-group"> 
+                  <label>Link to title image</label>
+                  <input class="form-control" type="text" name="postTitleImage">
+                </div>
+                <div class="form-group"> 
+                    <label>Tags</label>
+                    <input class="form-control" type="text" name="postTags">
+                </div> 
+                <div class="form-group"></div>
+                  <label>Content</label>
+                  <textarea class="form-control" name="postContent" rows="5" cols="30"></textarea>
+                </div> 
+                <button class="btn btn-dark" type="submit" name="button">Publish</button>
+              </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<%- include("partials/footer") -%> 

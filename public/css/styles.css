@@ -1,3 +1,8 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     font-size: 1rem;
     text-align: center;
@@ -25,7 +30,12 @@ a {
 }
 
 .navbar {
-padding: 0 1%;
+    padding: 0.2em 1%;
+    font-size: 1.2em;
+}
+
+.nav-item {
+    padding: 0 1em;
 }
 
 /* Title section*/
@@ -41,6 +51,7 @@ padding: 0 1%;
     padding: 7% 5% 2%;
     color: #434B53;
 }
+
 .title-sub-heading {
     font-family: 'Special Elite', sans-serif;
     color: #434B53;
@@ -94,6 +105,7 @@ padding: 0 1%;
 .skill-box {
     padding: 2%;
 }
+
 .skill-icon {
     width: 20%;
     float: left;
@@ -101,7 +113,7 @@ padding: 0 1%;
 }
 
 .skill-title{
-text-align: left;
+    text-align: left;
 }
 
 .skill-desc {
@@ -133,6 +145,7 @@ padding-top: 2em;
 /* Bio section */
 .bio-box{
     padding: 5%;
+    margin-bottom: 5%;
     text-align: justify;
 }
 
@@ -144,6 +157,10 @@ padding-top: 2em;
 #footer{
     background-color: #77d8d8;
     font-size: 0.75em;
+    position: absolute;
+    bottom: 0;
+    padding: 1.5em;
+    width: 100%;
 }
 
 /* Media queries */
@@ -188,9 +205,16 @@ padding-top: 2em;
         float: none;
         padding-bottom: 7%;
         padding-top: 15%;
-        
     }
+
     .bio-box {
         padding: 10%;
     }
+}
+
+
+/* Register, Login, and compose card pages */
+
+.card-container {
+    margin-bottom: 15em;
 }
