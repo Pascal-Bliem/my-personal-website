@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // connect to MongoDB Atlas
-const dbConnection = `mongodb+srv://admin-pascal-bliem:${process.env.DBPWD}@cluster0-skhtx.mongodb.net/pbDataWebsiteDB`
+const dbConnection = process.env.DBCONNECTION
 mongoose.connect(dbConnection, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 
 // create a user schema and model with passport-local-mongoose plugin for user authentication
@@ -75,7 +75,7 @@ app.get("/blog", (req, res) => {
 });
 
 // routes for the compose page is only accessible if user is authenticated and admin
-app.route("/compose")
+app.route("/blog/compose")
 .get((req, res) => {
     if(req.isAuthenticated() && req.user.roles.includes("admin")) {
         res.render("compose", {pageTitle: "Compose", currDate: new Date().toISOString().slice(0, 10) });
