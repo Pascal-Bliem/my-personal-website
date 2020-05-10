@@ -1,0 +1,74 @@
+<%- include("partials/header") -%> 
+
+
+<div class="container mt-5 card-container">
+    <h1>Edit post</h1>
+  
+    <div class="row card-row">
+      <div class="col-sm-10 ml-auto mr-auto">
+        <div class="card">
+          <div class="card-body">
+          
+            <form class="" action="/update" method="post">
+                <div class="form-group">
+                    <label>Search ID</label>
+                    <input class="form-control" type="text" name="postTitleLower" value="<%= title_lower %>" readonly>
+                  </div>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input class="form-control" type="text" name="postTitle" value="<%= title %>">
+                </div>
+                <div class="form-group">
+                  <label>Sub-Title</label>
+                  <input class="form-control" type="text" name="postSubTitle" value="<%= subTitle %>">
+                </div>
+                <div class="form-group">
+                  <label>Publish date</label>
+                  <input class="form-control" type="date" value="<%= datePublished.toLocaleString() %>" data-format="dd-mm-yyyy" name="postDatePublished">
+                </div>
+                <div class="form-group"> 
+                  <label>Link to title image</label>
+                  <input class="form-control" type="text" name="postTitleImage" value="<%= titleImage %>" >
+                </div>
+                <div class="form-group"> 
+                  <label>Title image description</label>
+                  <input class="form-control" type="text" name="postTitleImageAlt" value="<%= titleImageAlt %>" >
+                </div>
+                <div class="form-group"> 
+                    <label>Tags</label>
+                    <input class="form-control" type="text" name="postTags" value="<%= tags.join(" ") %>" >
+                </div> 
+                <div class="form-group">
+                  <label>Content</label>
+                  <textarea class="form-control" name="postContent" rows="5" cols="30" ><%= content %></textarea>
+                </div> 
+                <button class="btn btn-dark" type="submit" name="button">Update Post</button>
+              </form>
+
+          </div>
+        </div>
+      </div>
+    </div> 
+
+    
+    
+    <h1>Delete post</h1>
+    <div class="row card-row">
+        <div class="col-sm-10 ml-auto mr-auto">
+          <div class="card">
+            <div class="card-body"> 
+              <form class="" action="/delete" method="post">
+                <div class="form-group">
+                    <label>Search ID</label>
+                    <input class="form-control" type="text" name="postTitleLower" value="<%= title_lower %>" readonly>
+                </div>
+                <button class="btn btn-danger" type="submit" name="button">Delete Post</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+
+<%- include("partials/footer") -%> 

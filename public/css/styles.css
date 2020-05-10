@@ -218,3 +218,66 @@ padding-top: 2em;
 .card-container {
     margin-bottom: 15em;
 }
+
+.card-row {
+    margin: 3em 0;
+}
+
+/* Post side styling */
+
+.post-title-section {
+    text-align: justify;
+    padding: 1em 0;
+}
+.post-title{
+    font-family: 'Special Elite', sans-serif;
+    font-size: 3em;
+}
+.post-subtitle {
+    color: #434B53;
+    font-size: 1.75em;
+}
+.post-date-published {
+    font-family: 'Playfair Display', serif;
+    color: #6b6f73;
+}
+.post-title-image-section {
+    text-align: center;
+    padding: 1em 0;
+}
+.post-title-image {
+    width: 100%;
+}
+.post-title-body {
+    text-align: justify;
+    padding: 1em 0 15em;
+}
+.post-title-body h1, .post-title-body h2, .post-title-body h3, .post-title-body h4, .post-title-body h5, .post-title-body h6 {
+    padding-top: 1.5em;
+}
+.post-page figure {
+    text-align: center;
+    padding: 1em 0;
+}
+.post-page figure img {
+    width: 100%;
+}
+.post-page figure figcaption {
+    font-style: italic;
+    color: #6b6f73;
+    padding-top: 0.5em;
+}
+
+@media (max-width: 1028px) {
+    .post-title{
+        font-size: 2em;
+        text-align: left;
+    }
+    .post-subtitle, .post-title-body h1, .post-title-body h2, .post-title-body h3, .post-title-body h4, .post-title-body h5, .post-title-body h6 {
+        font-size: 1.5em;
+        text-align: left;
+    }
+    .post-page{
+        max-width: 970px;
+    }
+}

@@ -7,11 +7,12 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const _ = require("lodash");
+const marked = require("marked");
 
 const app = express();
 
 //  set up, public files, view engine, session etc.
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -50,6 +51,7 @@ const postSchema = mongoose.Schema({
     title_lower: String,
     subTitle: String,
     titleImage: String,
+    titleImageAlt: String,
     author: String,
     datePublished: Date,
     tags: [String],
@@ -57,7 +59,6 @@ const postSchema = mongoose.Schema({
 })
 
 const Post = mongoose.model("Post",postSchema);
-
 
 // HOME route
 app.get("/", (req, res) => {
@@ -75,7 +76,7 @@ app.get("/blog", (req, res) => {
 });
 
 // routes for the compose page is only accessible if user is authenticated and admin
-app.route("/blog/compose")
+app.route("/compose")
 .get((req, res) => {
     if(req.isAuthenticated() && req.user.roles.includes("admin")) {
         res.render("compose", {pageTitle: "Compose", currDate: new Date().toISOString().slice(0, 10) });
@@ -93,6 +94,7 @@ app.route("/blog/compose")
         title_lower: _.lowerCase(req.body.postTitle),
         subTitle: req.body.postSubTitle,
         titleImage: req.body.postTitleImage,
+        titleImageAlt: req.body.postTitleImageAlt,
         author: req.user.username,
         datePublished: req.body.postDatePublished,
         tags: req.body.postTags.split(" "),
@@ -122,19 +124,120 @@ app.get("/blog/:postName", function(req, res){
         res.send("No post with the requested title found :(");
       } 
       else  {
+        
+        // check if a user is logged in and if he's admin
+        let isAdmin = false;
+        if (req.user) {
+            isAdmin = req.user.roles.includes("admin");
+        } 
+
         res.render("post", {
           pageTitle: foundPost.title,  
           title: foundPost.title,
-          content: foundPost.content,
+          title_lower: foundPost.title_lower,
           subTitle: foundPost.subTitle,
           titleImage: foundPost.titleImage,
+          titleImageAlt: foundPost.titleImageAlt,
           author: foundPost.author,
           datePublished: foundPost.datePublished,
-          tags: foundPost.tags
+          tags: foundPost.tags,
+          content: marked(foundPost.content), // convert from markdown to html
+          isAdmin: isAdmin
         });
       }
     })
   });
+
+// editing the blog post from corresponding route parameters
+app.post("/edit/:postName", function(req, res){
+    const requestedTitle = _.lowerCase(req.params.postName);
+    
+    Post.findOne({title_lower: requestedTitle}, (err, foundPost) => {
+      if (err) {
+        console.log(err);
+        res.send("Oops something went wrong when querying the data base :(");
+      } 
+      else if (!foundPost){
+        res.send("No post with the requested title found :(");
+      } 
+      else  {
+        
+        if(req.isAuthenticated() && req.user.roles.includes("admin")) {
+            res.render("edit", {
+                pageTitle: "Edit" + foundPost.title,  
+                title: foundPost.title,
+                title_lower: foundPost.title_lower,
+                subTitle: foundPost.subTitle,
+                titleImage: foundPost.titleImage,
+                titleImageAlt: foundPost.titleImageAlt,
+                author: foundPost.author,
+                datePublished: new Date(foundPost.datePublished).toISOString().slice(0, 10),
+                tags: foundPost.tags,
+                content: foundPost.content,
+              });
+        }
+        else {
+            res.render("login", {pageTitle: "Log in"});
+        }
+      }
+    })
+});
+
+// looks up a post and updates it with the body parameters from the post request form
+app.post("/update", (req, res) => {
+    
+    if(req.isAuthenticated() && req.user.roles.includes("admin")) {
+        const requestedTitle = req.body.postTitleLower;
+        
+        Post.findOneAndUpdate(
+            {title_lower: requestedTitle},
+            {
+            title: req.body.postTitle,
+            title_lower: _.lowerCase(req.body.postTitle),
+            subTitle: req.body.postSubTitle,
+            titleImage: req.body.postTitleImage,
+            titleImageAlt: req.body.postTitleImageAlt,
+            author: req.user.username,
+            datePublished: req.body.postDatePublished,
+            tags: req.body.postTags.split(" "),
+            content: req.body.postContent
+            },
+            {useFindAndModify: false},
+            (err, postBeforeUpdate) => {
+                if (err){
+                    console.log(err);
+                    res.send("Oops something went wrong when trying to update the post :(");
+                } else {
+                    res.redirect(`/blog/${_.lowerCase(req.body.postTitle)}`);
+                }
+        }); 
+    } else {
+        res.redirect("/login");
+    }
+});    
+
+// looks up a post and deletes it
+app.post("/delete", (req, res) => {
+    
+    if(req.isAuthenticated() && req.user.roles.includes("admin")) {
+        const requestedTitle = req.body.postTitleLower;
+        
+        Post.findOneAndDelete(
+            {title_lower: requestedTitle},
+            (err, deletedPost) => {
+                if (err){
+                    console.log(err);
+                    res.send("Oops something went wrong when trying to delete the post :(");
+                } else {
+                    res.redirect(`/blog`);
+                }
+            }
+        )
+    } else {
+        res.redirect("/login");
+    }
+});
+
 
 // registering users (should normally not be accessible as long as I am the only user of the blog)
 // app.route("/register")
