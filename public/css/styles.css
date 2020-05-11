@@ -49,11 +49,19 @@ a {
     font-size: 5em;
     font-weight: 550;
     padding: 7% 5% 2%;
+    /* color: #434B53; */
+}
+
+#title .title-heading {
     color: #434B53;
 }
 
 .title-sub-heading {
     font-family: 'Special Elite', sans-serif;
+    /* color: #434B53; */
+}
+
+#title .title-sub-heading {
     color: #434B53;
 }
 
@@ -223,7 +231,7 @@ padding-top: 2em;
     margin: 3em 0;
 }
 
-/* Post side styling */
+/* Post page styling */
 
 .post-title-section {
     text-align: justify;
@@ -276,6 +284,79 @@ padding-top: 2em;
     .post-subtitle, .post-title-body h1, .post-title-body h2, .post-title-body h3, .post-title-body h4, .post-title-body h5, .post-title-body h6 {
         font-size: 1.5em;
         text-align: left;
+    }
+    .post-page{
+        max-width: 970px;
+    }
+}
+
+/* Blog page styling */
+
+.blog-page-title-section {
+    background-image: url("../images/overtheclouds.jpg");
+    background-color: #cccccc; 
+    height: 30em; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    margin-bottom: 1.5em;
+}
+
+.blog-page-posts-section {
+    padding-bottom: 15em;
+}
+
+.blog-page-posts-section .post-title-section {
+    padding: 1em 0;
+}
+.blog-page-posts-section .post-title{
+    font-size: 2em;
+}
+.blog-page-posts-section .post-subtitle {
+    font-size: 1.25em;
+}
+.blog-page-posts-section .post-date-published {
+    font-family: sans-serif;
+    font-style: italic;
+    color: #6b6f73;
+}
+.blog-page-posts-section .post-title-image-section {
+    padding:  0;
+}
+.blog-page-posts-section .post-title-image {
+    width: 50%;
+    float: left;
+    margin-right: 1em;
+}
+.blog-page-posts-section .post-title-body {
+    padding: 0;
+}
+.blog-page-posts-section .post-title-body h1, .blog-page-posts-section .post-title-body h2, .blog-page-posts-section .post-title-body h3, .blog-page-posts-section .post-title-body h4, .blog-page-posts-section .post-title-body h5,.blog-page-posts-section .post-title-body h6 {
+    padding-top: 0;
+    font-size: 1.3em;
+}
+.post-separator{
+    border: solid;
+    border-width: 0.05em;
+    border-color: lightgray;
+    background-color: lightgray;
+}
+@media (max-width: 1300px) {
+    .blog-page-title-section {
+        height: 25em; 
+    }
+    .post-page{
+        max-width: 970px;
+    }
+}
+
+@media (max-width: 1028px) {
+    .blog-page-title-section {
+        height: 50em; 
+    }
+
+    .blog-page-title-section .title-heading {
+        padding: 2em 0 0.5em;
     }
     .post-page{
         max-width: 970px;

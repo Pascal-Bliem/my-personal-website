@@ -65,14 +65,32 @@ app.get("/", (req, res) => {
     res.render("index", {pageTitle: "Pascal Bliem"});
 })
 
-// routes for the blog page with default and admin view
-app.get("/blog", (req, res) => {
-    if(req.isAuthenticated() && req.user.roles.includes("admin")) {
-        res.render("blog_admin", {pageTitle: "Blog Admin"});
-    }
-    else {
-        res.render("blog", {pageTitle: "Blog"});
-    }
+// this function find posts according to a search condition 
+// and renders them on the blog summary page, also checks
+// if user is authenticated as admin
+function renderPosts(condition, req, res) {
+    Post.find(condition, (err, foundPosts) => {
+        if (err) {
+            console.log(err);
+            res.send("Ooops something went wrong when looking for posts :(")
+        } else {
+            let isAdmin = false;
+            if(req.isAuthenticated() && req.user.roles.includes("admin")) {
+                isAdmin = true;
+            }
+            res.render("blog", {pageTitle: "Pascal's Blog", isAdmin: isAdmin, foundPosts: foundPosts, marked: marked});
+        }
+    })
+};
+
+// routes for the blog page, potentially filtered for keywords
+// the admin vies is handled in renderPosts()
+app.route("/blog")
+.get( (req, res) => {
+    renderPosts({}, req, res);
+})
+.post( (req, res) => {
+    renderPosts({tags: req.body.keywords[0]}, req, res);
 });
 
 // routes for the compose page is only accessible if user is authenticated and admin

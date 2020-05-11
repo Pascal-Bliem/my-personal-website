@@ -1,6 +1,65 @@
 <%- include("partials/header") -%> 
 
-This is where the blog is going to be 
+<% if (isAdmin) { %> 
+<!-- option for composing the post as a admin -->
+<form class="ml-auto mr-auto" action="/compose" method="GET" style="padding: 3em;">
+    <button type="submit" class="btn btn-dark btn-lg" >Compose a Post</button>
+</form>
+<% } %> 
 
+<div class="blog-page-title-section">
+    <h1 class="title-heading">Welcome to my Blog</h1>
+    <h3 class="title-sub-heading">where I write about data science,</hw>
+    <h3 class="title-sub-heading">software development, and other topics.</hw>
+</div>
+
+<div class="blog-page-posts-section container post-page mt-5">
+
+<!-- <div class="container"> -->
+
+<form action="/blog" method="POST" class="mb-4">
+  <div class="btn-group-toggle" data-toggle="">
+    <label for="data-science">Filter for keywords:</label>
+    <label class="btn btn-sm btn-secondary active">
+      <input name="keywords[]" value="data-science" type="checkbox" onChange="this.form.submit()"> Data Science
+    </label>
+    <label class="btn btn-sm btn-secondary active">
+      <input name="keywords[]" value="web-development" type="checkbox" onChange="this.form.submit()"> Web Development
+    </label>
+    <label class="btn btn-sm btn-secondary active">
+        <input type="checkbox" name="keywords[]" value="learning" onChange="this.form.submit()"> Learning
+    </label>
+    <label class="btn btn-sm btn-secondary active">
+      <input type="checkbox" name="keywords[]" value="non-tech" onChange="this.form.submit()"> Non-Tech
+    </label>
+  </div>
+</form>
+
+<!-- </div> -->
+
+<% foundPosts.forEach( post => { %> 
+
+<!-- The actual post page with title, title image, and body section -->
+<!-- <div class="container mt-5 post-page"> -->
+    <div class="row">
+        <div class="col-md-10 col-sm-12 ml-auto mr-auto post-title-section">
+          <h1 class="post-title"><%= post.title %></h1>
+          <h2 class="post-subtitle"><%= post.subTitle %></h2>
+          <p class="post-date-published"><em>Posted on <%=post.datePublished.toLocaleDateString('de-DE')%> | Keywords: <strong><%= post.tags.join(" ") %></strong></em></p>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-sm-12 ml-auto mr-auto post-title-body">
+        <img class="post-title-image" src="<%= post.titleImage %>" alt="<%= post.titleImageAlt %>">
+        <%- marked(post.content.slice(0,500)+` ... <a href='/blog/${post.title_lower}'>Read More</a>`) _%>
+    </div>
+    </div>
+    
+<hr class="col-lg-10 col-md-8 col-sm-12 post-separator">
+<!-- </div> -->
+
+<% }) %> 
+
+</div>
 
 <%- include("partials/footer") -%> 
