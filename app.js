@@ -60,10 +60,17 @@ const postSchema = mongoose.Schema({
 
 const Post = mongoose.model("Post",postSchema);
 
-// HOME route
+// HOME route (if no data base error, send blog post for the post carousel)
 app.get("/", (req, res) => {
-    res.render("index", {pageTitle: "Pascal Bliem"});
-})
+    Post.find({}).sort({datePublished: -1}).exec((err, foundPosts) => {
+        if (err) {
+            console.log(err);
+            res.render("index", {pageTitle: "Pascal Bliem", carouselPosts: false});
+        } else {
+            res.render("index", {pageTitle: "Pascal Bliem", carouselPosts: foundPosts});
+        }
+    })
+});
 
 // this function find posts according to a search condition 
 // and renders them on the blog summary page, also checks
