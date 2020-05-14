@@ -239,14 +239,14 @@ padding-top: 2em;
 }
 .post-title{
     font-family: 'Special Elite', sans-serif;
-    font-size: 3em;
+    font-size: 2.75em;
 }
 .post-subtitle {
     color: #434B53;
     font-size: 1.75em;
 }
 .post-date-published {
-    font-family: 'Playfair Display', serif;
+    font-style: italic;
     color: #6b6f73;
 }
 .post-title-image-section {

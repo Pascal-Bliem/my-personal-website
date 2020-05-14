@@ -69,7 +69,7 @@ app.get("/", (req, res) => {
 // and renders them on the blog summary page, also checks
 // if user is authenticated as admin
 function renderPosts(condition, req, res) {
-    Post.find(condition, (err, foundPosts) => {
+    Post.find(condition).sort({datePublished: -1}).exec((err, foundPosts) => {
         if (err) {
             console.log(err);
             res.send("Ooops something went wrong when looking for posts :(")
