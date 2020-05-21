@@ -14,7 +14,7 @@ const app = express();
 //  set up, public files, view engine, session etc.
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 
 app.use(session({
     secret: process.env.SECRET,
