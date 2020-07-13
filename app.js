@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
@@ -14,20 +15,21 @@ const app = express();
 //  set up, public files, view engine, session etc.
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json());
 
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
-  }));
-  
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 // connect to MongoDB Atlas
 const dbConnection = process.env.DBCONNECTION
-mongoose.connect(dbConnection, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect(dbConnection, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 // create a user schema and model with passport-local-mongoose plugin for user authentication
 const userSchema = mongoose.Schema({
@@ -39,7 +41,7 @@ const userSchema = mongoose.Schema({
 
 userSchema.plugin(passportLocalMongoose);
 
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
@@ -58,16 +60,16 @@ const postSchema = mongoose.Schema({
     content: String
 })
 
-const Post = mongoose.model("Post",postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 // HOME route (if no data base error, send blog post for the post carousel)
 app.get("/", (req, res) => {
-    Post.find({}).sort({datePublished: -1}).exec((err, foundPosts) => {
+    Post.find({}).sort({ datePublished: -1 }).exec((err, foundPosts) => {
         if (err) {
             console.log(err);
-            res.render("index", {pageTitle: "Pascal Bliem", carouselPosts: false});
+            res.render("index", { pageTitle: "Pascal Bliem", carouselPosts: false });
         } else {
-            res.render("index", {pageTitle: "Pascal Bliem", carouselPosts: foundPosts});
+            res.render("index", { pageTitle: "Pascal Bliem", carouselPosts: foundPosts });
         }
     })
 });
@@ -76,16 +78,16 @@ app.get("/", (req, res) => {
 // and renders them on the blog summary page, also checks
 // if user is authenticated as admin
 function renderPosts(condition, req, res) {
-    Post.find(condition).sort({datePublished: -1}).exec((err, foundPosts) => {
+    Post.find(condition).sort({ datePublished: -1 }).exec((err, foundPosts) => {
         if (err) {
             console.log(err);
             res.send("Ooops something went wrong when looking for posts :(")
         } else {
             let isAdmin = false;
-            if(req.isAuthenticated() && req.user.roles.includes("admin")) {
+            if (req.isAuthenticated() && req.user.roles.includes("admin")) {
                 isAdmin = true;
             }
-            res.render("blog", {pageTitle: "Pascal's Blog", isAdmin: isAdmin, foundPosts: foundPosts, marked: marked});
+            res.render("blog", { pageTitle: "Pascal's Blog", isAdmin: isAdmin, foundPosts: foundPosts, marked: marked });
         }
     })
 };
@@ -93,130 +95,28 @@ function renderPosts(condition, req, res) {
 // routes for the blog page, potentially filtered for keywords
 // the admin vies is handled in renderPosts()
 app.route("/blog")
-.get( (req, res) => {
-    renderPosts({}, req, res);
-})
-.post( (req, res) => {
-    renderPosts({tags: req.body.keywords[0]}, req, res);
-});
+    .get((req, res) => {
+        renderPosts({}, req, res);
+    })
+    .post((req, res) => {
+        renderPosts({ tags: req.body.keywords[0] }, req, res);
+    });
 
 // routes for the compose page is only accessible if user is authenticated and admin
 app.route("/compose")
-.get((req, res) => {
-    if(req.isAuthenticated() && req.user.roles.includes("admin")) {
-        res.render("compose", {pageTitle: "Compose", currDate: new Date().toISOString().slice(0, 10) });
-    }
-    else {
-        res.render("login", {pageTitle: "Log in"});
-    }
-    // res.render("compose", {pageTitle: "Compose", currDate: new Date().toISOString().slice(0, 10) });
-})
-.post((req, res) => {
-    // create a new post object and save it to the data base
-    // if saving successful, redirect to the post page
-    const post = Post({
-        title: req.body.postTitle,
-        title_lower: _.lowerCase(req.body.postTitle),
-        subTitle: req.body.postSubTitle,
-        titleImage: req.body.postTitleImage,
-        titleImageAlt: req.body.postTitleImageAlt,
-        author: req.user.username,
-        datePublished: req.body.postDatePublished,
-        tags: req.body.postTags.split(" "),
-        content: req.body.postContent
-    });
-
-    post.save(err => {
-        if (err) {
-          console.log(err);
-          res.send("Oops something went wrong when saving the post :(");
-        } else {
-          res.redirect(`/blog/${_.lowerCase(req.body.postTitle)}`);
-        }
-    });
-});
-
-// getting the blog post form the corresponding route parameters
-app.get("/blog/:postName", function(req, res){
-    const requestedTitle = _.lowerCase(req.params.postName);
-    
-    Post.findOne({title_lower: requestedTitle}, (err, foundPost) => {
-      if (err) {
-        console.log(err);
-        res.send("Oops something went wrong when querying the data base :(");
-      } 
-      else if (!foundPost){
-        res.send("No post with the requested title found :(");
-      } 
-      else  {
-        
-        // check if a user is logged in and if he's admin
-        let isAdmin = false;
-        if (req.user) {
-            isAdmin = req.user.roles.includes("admin");
-        } 
-
-        res.render("post", {
-          pageTitle: foundPost.title,  
-          title: foundPost.title,
-          title_lower: foundPost.title_lower,
-          subTitle: foundPost.subTitle,
-          titleImage: foundPost.titleImage,
-          titleImageAlt: foundPost.titleImageAlt,
-          author: foundPost.author,
-          datePublished: foundPost.datePublished,
-          tags: foundPost.tags,
-          content: marked(foundPost.content), // convert from markdown to html
-          isAdmin: isAdmin
-        });
-      }
-    })
-  });
-
-// editing the blog post from corresponding route parameters
-app.post("/edit/:postName", function(req, res){
-    const requestedTitle = _.lowerCase(req.params.postName);
-    
-    Post.findOne({title_lower: requestedTitle}, (err, foundPost) => {
-      if (err) {
-        console.log(err);
-        res.send("Oops something went wrong when querying the data base :(");
-      } 
-      else if (!foundPost){
-        res.send("No post with the requested title found :(");
-      } 
-      else  {
-        
-        if(req.isAuthenticated() && req.user.roles.includes("admin")) {
-            res.render("edit", {
-                pageTitle: "Edit" + foundPost.title,  
-                title: foundPost.title,
-                title_lower: foundPost.title_lower,
-                subTitle: foundPost.subTitle,
-                titleImage: foundPost.titleImage,
-                titleImageAlt: foundPost.titleImageAlt,
-                author: foundPost.author,
-                datePublished: new Date(foundPost.datePublished).toISOString().slice(0, 10),
-                tags: foundPost.tags,
-                content: foundPost.content,
-              });
+    .get((req, res) => {
+        if (req.isAuthenticated() && req.user.roles.includes("admin")) {
+            res.render("compose", { pageTitle: "Compose", currDate: new Date().toISOString().slice(0, 10) });
         }
         else {
-            res.render("login", {pageTitle: "Log in"});
+            res.render("login", { pageTitle: "Log in" });
         }
-      }
+        // res.render("compose", {pageTitle: "Compose", currDate: new Date().toISOString().slice(0, 10) });
     })
-});
-
-// looks up a post and updates it with the body parameters from the post request form
-app.post("/update", (req, res) => {
-    
-    if(req.isAuthenticated() && req.user.roles.includes("admin")) {
-        const requestedTitle = req.body.postTitleLower;
-        
-        Post.findOneAndUpdate(
-            {title_lower: requestedTitle},
-            {
+    .post((req, res) => {
+        // create a new post object and save it to the data base
+        // if saving successful, redirect to the post page
+        const post = Post({
             title: req.body.postTitle,
             title_lower: _.lowerCase(req.body.postTitle),
             subTitle: req.body.postSubTitle,
@@ -226,31 +126,133 @@ app.post("/update", (req, res) => {
             datePublished: req.body.postDatePublished,
             tags: req.body.postTags.split(" "),
             content: req.body.postContent
+        });
+
+        post.save(err => {
+            if (err) {
+                console.log(err);
+                res.send("Oops something went wrong when saving the post :(");
+            } else {
+                res.redirect(`/blog/${_.lowerCase(req.body.postTitle)}`);
+            }
+        });
+    });
+
+// getting the blog post form the corresponding route parameters
+app.get("/blog/:postName", function (req, res) {
+    const requestedTitle = _.lowerCase(req.params.postName);
+
+    Post.findOne({ title_lower: requestedTitle }, (err, foundPost) => {
+        if (err) {
+            console.log(err);
+            res.send("Oops something went wrong when querying the data base :(");
+        }
+        else if (!foundPost) {
+            res.send("No post with the requested title found :(");
+        }
+        else {
+
+            // check if a user is logged in and if he's admin
+            let isAdmin = false;
+            if (req.user) {
+                isAdmin = req.user.roles.includes("admin");
+            }
+
+            res.render("post", {
+                pageTitle: foundPost.title,
+                title: foundPost.title,
+                title_lower: foundPost.title_lower,
+                subTitle: foundPost.subTitle,
+                titleImage: foundPost.titleImage,
+                titleImageAlt: foundPost.titleImageAlt,
+                author: foundPost.author,
+                datePublished: foundPost.datePublished,
+                tags: foundPost.tags,
+                content: marked(foundPost.content), // convert from markdown to html
+                isAdmin: isAdmin
+            });
+        }
+    })
+});
+
+// editing the blog post from corresponding route parameters
+app.post("/edit/:postName", function (req, res) {
+    const requestedTitle = _.lowerCase(req.params.postName);
+
+    Post.findOne({ title_lower: requestedTitle }, (err, foundPost) => {
+        if (err) {
+            console.log(err);
+            res.send("Oops something went wrong when querying the data base :(");
+        }
+        else if (!foundPost) {
+            res.send("No post with the requested title found :(");
+        }
+        else {
+
+            if (req.isAuthenticated() && req.user.roles.includes("admin")) {
+                res.render("edit", {
+                    pageTitle: "Edit" + foundPost.title,
+                    title: foundPost.title,
+                    title_lower: foundPost.title_lower,
+                    subTitle: foundPost.subTitle,
+                    titleImage: foundPost.titleImage,
+                    titleImageAlt: foundPost.titleImageAlt,
+                    author: foundPost.author,
+                    datePublished: new Date(foundPost.datePublished).toISOString().slice(0, 10),
+                    tags: foundPost.tags,
+                    content: foundPost.content,
+                });
+            }
+            else {
+                res.render("login", { pageTitle: "Log in" });
+            }
+        }
+    })
+});
+
+// looks up a post and updates it with the body parameters from the post request form
+app.post("/update", (req, res) => {
+
+    if (req.isAuthenticated() && req.user.roles.includes("admin")) {
+        const requestedTitle = req.body.postTitleLower;
+
+        Post.findOneAndUpdate(
+            { title_lower: requestedTitle },
+            {
+                title: req.body.postTitle,
+                title_lower: _.lowerCase(req.body.postTitle),
+                subTitle: req.body.postSubTitle,
+                titleImage: req.body.postTitleImage,
+                titleImageAlt: req.body.postTitleImageAlt,
+                author: req.user.username,
+                datePublished: req.body.postDatePublished,
+                tags: req.body.postTags.split(" "),
+                content: req.body.postContent
             },
-            {useFindAndModify: false},
+            { useFindAndModify: false },
             (err, postBeforeUpdate) => {
-                if (err){
+                if (err) {
                     console.log(err);
                     res.send("Oops something went wrong when trying to update the post :(");
                 } else {
                     res.redirect(`/blog/${_.lowerCase(req.body.postTitle)}`);
                 }
-        }); 
+            });
     } else {
         res.redirect("/login");
     }
-});    
+});
 
 // looks up a post and deletes it
 app.post("/delete", (req, res) => {
-    
-    if(req.isAuthenticated() && req.user.roles.includes("admin")) {
+
+    if (req.isAuthenticated() && req.user.roles.includes("admin")) {
         const requestedTitle = req.body.postTitleLower;
-        
+
         Post.findOneAndDelete(
-            {title_lower: requestedTitle},
+            { title_lower: requestedTitle },
             (err, deletedPost) => {
-                if (err){
+                if (err) {
                     console.log(err);
                     res.send("Oops something went wrong when trying to delete the post :(");
                 } else {
@@ -285,31 +287,77 @@ app.post("/delete", (req, res) => {
 
 // user login
 app.route("/login")
-.get((req, res) => {
-    res.render("login", {pageTitle: "Log in"});
-})
-.post((req, res) => {
-    const user = User({
-        username: req.body.username,
-        password: req.body.password
-       });
-
-    req.login(user, (err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            passport.authenticate("local")(req, res, function() {
-                res.redirect("/blog");
-            });
-        }
+    .get((req, res) => {
+        res.render("login", { pageTitle: "Log in" });
     })
-});
+    .post((req, res) => {
+        const user = User({
+            username: req.body.username,
+            password: req.body.password
+        });
 
+        req.login(user, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                passport.authenticate("local")(req, res, function () {
+                    res.redirect("/blog");
+                });
+            }
+        })
+    });
 
+// async posts input data to the single-prediction 
+// ToxBlock REST API and returns the predictions as response
+const postToToxBlockAPI = async (url, content, res) => {
+    try {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(content)
+        })
+            .then(res => res.json())
+            .then(body => {
+                res.send(body)
+            });
+    } catch (error) {
+        console.log(error);
+    }
+}
 
+// routes for the ToxBlock page, the POST
+// posts input text to the ToxBlock REST API
+app.route("/tox-block")
+    .get((req, res) => {
+        res.render("toxblock", { pageTitle: "ToxBlock" });
+    })
+    .post((req, res) => {
+        postToToxBlockAPI("https://tox-block-api.herokuapp.com/v1/make_single_prediction",
+            req.body,
+            res);
+    })
 
+// this get will be requested when the ToxBlock (toxblock.ejs)
+// page is loaded to asyncly check for the ToxBlock API health
+const getHealthStatus = async (url, res) => {
+    try {
+        fetch(url)
+            .then(res => res.text())
+            .then(body => {
+                res.send(body)
+            });
+    } catch (error) {
+        console.log(error);
+    }
+}
+// GET route to check for the API health
+app.get("/toxblock-api-health", (req, res) => {
+    getHealthStatus("https://tox-block-api.herokuapp.com/health", res);
+})
 
 
 // start the app
 const PORT = process.env.PORT || 8081
-app.listen(PORT, function() {console.log(`Server started on port ${PORT}`)});
+app.listen(PORT, function () { console.log(`Server started on port ${PORT}`) });

@@ -1,0 +1,158 @@
+<%- include("partials/header") -%>
+
+<!-- Special fonts for title -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Creepster&display=swap"
+  rel="stylesheet"
+/>
+
+<div class="container mt-5 post-page">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto">
+      <h1 class="toxblock-title">
+        <span class="tox-span">Tox</span><span class="block-span">Block </span>
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-body">
+      <p class="">
+        The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum
+        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+        id est laborum." Section 1.10.32 of "de Finibus Bonorum et Malorum",
+        written by Cicero in 45 BC "Sed ut perspiciatis unde omnis iste natus
+        error sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+        beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
+        voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+        dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+        est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
+        sed quia non numquam eius modi tempora incidunt ut labore et dolore
+        magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+        nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
+        aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
+        qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
+        illum qui dolorem eum fugiat quo voluptas nulla pariatur?" 1914
+        translation by H. Rackham "But I must explain to you how all this
+        mistaken idea of denouncing pleasure and praising pain was born and I
+        will give you a complete account of the system, and expound the actual
+        teachings of the great explorer of the truth, the master-builder of
+        human happiness. No one rejects, dislikes, or avoids pleasure itself,
+        because it is pleasure, but because those who do not know how to pursue
+        pleasure rationally encounter consequences that are extremely painful.
+        Nor again is there anyone who loves or pursues or desires to obtain pain
+        of itself, because it is pain, but because occasionally circumstances
+        occur in which toil and pain can procure him some great pleasure. To
+        take a trivial example, which of us ever undertakes laborious physical
+        exercise, except to obtain some advantage from it? But who has any right
+        to find fault with a man who chooses to enjoy a pleasure that has no
+        annoying consequences, or one who avoids a pain that produces no
+        resultant pleasure?"
+      </p>
+      <h2>Try it out</h2>
+      <p>
+        Type an input text into the text field below, post it to the ToxBlock
+        API, and get back the toxicity classification. The app may take a few
+        seconds to wake up.
+      </p>
+      <form id="toxblock-form" action="" method="POST">
+        <small
+          >API status:
+          <span id="toxblock-app-status" class="toxblock-app-status"
+            >waking up</span
+          ></small
+        >
+        <div class="toxblock-form-control">
+          <label for="toxblock-input">Input Text</label>
+          <textarea
+            name="toxblock-input"
+            class="toxblock-input"
+            id="toxblock-input"
+            cols="30"
+            rows="5"
+            placeholder="Type something nasty..."
+          ></textarea>
+          <small>ERROR MESSAGE</small>
+        </div>
+        <div class="toxblock-post-button-div">
+          <button
+            type="submit"
+            class="btn btn-dark btn-sm toxblock-post-button"
+          >
+            POST
+          </button>
+        </div>
+      </form>
+      <div id="toxblock-chart" class="toxblock-chart">
+        <div class="row">
+          <div class="col-lg-2 col-sm-10">
+            <p class="toxblock-bar-label">Toxic</p>
+          </div>
+          <div class="col-lg-10 col-sm-10">
+            <div class="toxblock-bar" id="toxic-bar"></div>
+            <p class="toxblock-bar-number" id="toxic-bar-number">0%</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-sm-10">
+            <p class="toxblock-bar-label">Severe toxic</p>
+          </div>
+          <div class="col-lg-10 col-sm-10">
+            <div class="toxblock-bar" id="severe-toxic-bar"></div>
+            <p class="toxblock-bar-number" id="severe-toxic-bar-number">0%</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-sm-10">
+            <p class="toxblock-bar-label">Obscene</p>
+          </div>
+          <div class="col-lg-10 col-sm-10">
+            <div class="toxblock-bar" id="obscene-bar"></div>
+            <p class="toxblock-bar-number" id="obscene-bar-number">0%</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-sm-10">
+            <p class="toxblock-bar-label">Insult</p>
+          </div>
+          <div class="col-lg-10 col-sm-10">
+            <div class="toxblock-bar" id="insult-bar"></div>
+            <p class="toxblock-bar-number" id="insult-bar-number">0%</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-sm-10">
+            <p class="toxblock-bar-label">Threat</p>
+          </div>
+          <div class="col-lg-10 col-sm-10">
+            <div class="toxblock-bar" id="threat-bar"></div>
+            <p class="toxblock-bar-number" id="threat-bar-number">0%</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-sm-10">
+            <p class="toxblock-bar-label">Identity hate</p>
+          </div>
+          <div class="col-lg-10 col-sm-10">
+            <div class="toxblock-bar" id="identity-hate-bar"></div>
+            <p class="toxblock-bar-number" id="identity-hate-bar-number">0%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../toxblockForm.js"></script>
+  </div>
+</div>
+
+<!-- toxic, severe toxic, obscene, insult, threat, and identity hate -->
+
+<%- include("partials/footer") -%>
