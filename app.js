@@ -343,7 +343,7 @@ app.route("/tox-block")
 // page is loaded to asyncly check for the ToxBlock API health
 const getHealthStatus = async (url, res) => {
     try {
-        fetch(url)
+        fetch(url, { method: "GET" })
             .then(res => res.text())
             .then(body => {
                 res.send(body)

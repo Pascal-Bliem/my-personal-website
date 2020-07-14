@@ -21,48 +21,50 @@
   <div class="row">
     <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-body">
       <p class="">
-        The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum
-        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-        id est laborum." Section 1.10.32 of "de Finibus Bonorum et Malorum",
-        written by Cicero in 45 BC "Sed ut perspiciatis unde omnis iste natus
-        error sit voluptatem accusantium doloremque laudantium, totam rem
-        aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-        beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-        voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-        dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-        est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-        sed quia non numquam eius modi tempora incidunt ut labore et dolore
-        magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
-        nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-        aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
-        qui in ea voluptate velit esse quam nihil molestiae consequatur, vel
-        illum qui dolorem eum fugiat quo voluptas nulla pariatur?" 1914
-        translation by H. Rackham "But I must explain to you how all this
-        mistaken idea of denouncing pleasure and praising pain was born and I
-        will give you a complete account of the system, and expound the actual
-        teachings of the great explorer of the truth, the master-builder of
-        human happiness. No one rejects, dislikes, or avoids pleasure itself,
-        because it is pleasure, but because those who do not know how to pursue
-        pleasure rationally encounter consequences that are extremely painful.
-        Nor again is there anyone who loves or pursues or desires to obtain pain
-        of itself, because it is pain, but because occasionally circumstances
-        occur in which toil and pain can procure him some great pleasure. To
-        take a trivial example, which of us ever undertakes laborious physical
-        exercise, except to obtain some advantage from it? But who has any right
-        to find fault with a man who chooses to enjoy a pleasure that has no
-        annoying consequences, or one who avoids a pain that produces no
-        resultant pleasure?"
+        ToxBlock is a machine learning application for recognizing toxic
+        language in text. It can potentially be employed for automatically
+        screening text in articles, posts, and comments on social media, digital
+        news, online forums etc. and blocking it or flagging it for further
+        review by human intelligence. It can predict probabilities for
+        classifying English text into six categories of verbal toxicity: toxic,
+        severe toxic, obscene, threat, insult, and identity hate. 
+        You can <strong><a href="#try">try it out</a></strong> below.
       </p>
-      <h2>Try it out</h2>
+      <p>
+        The underlying ToxBlock application is a machine learning package
+        written in Python, which is being served as a containerized REST API to
+        which HTTP requests with potentially toxic text can be send over the internet.
+        I previously published a couple of resources on the application:
+        <ul>
+          <li><a href="https://github.com/Pascal-Bliem/tox-block">The ToxBlock Github repository</a></li>
+          <li><a href="https://github.com/Pascal-Bliem/tox-block-api">The ToxBlock API Github repository</a></li>
+          <li><a href="https://pypi.org/project/tox-block/">ToxBlock on the Python package index (PyPI)</a></li>
+          <li><a href="http://www.pascal-bliem.com/blog/tox%20block%20using%20ai%20to%20keep%20discussions%20clean">A blog post on the ToxBlock package</a></li>
+          <li><a href="http://www.pascal-bliem.com/blog/the%20tox%20block%20api%20bring%20ml%20models%20into%20action%20by%20serving%20them%20on%20the%20web">A blog post on the ToxBlock API</a></li>
+        </ul>
+      </p>
+      <h3>How it works</h3>
+      <p>
+        I got into deeper detail in the afore mentioned blog posts, but to sum it up shortly, 
+        the workflow is as follows: The input data is send in JSON format
+        via a HTTP POST request to the API app, which is hosted on a cloud instance at <a href="https://www.heroku.com/">Heroku</a>. 
+        The app is deployed as a <a href="https://www.docker.com/">Docker</a> container, which contains a webserver running the 
+        <a href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a>
+        micro web framework. Flask provides the routes to the API endpoints, through which the actual functionality of ToxBlock is served.</p> 
+        <img class="toxblock-img" src="https://pb-data-blogposts.s3.eu-central-1.amazonaws.com/tox-block/workflow.png" alt="ToxBlock workflow">
+      <p>Inside of the ToxBlock package is where the real action happens: the text input is encoded numerically and embedded using 
+        <a href="https://nlp.stanford.edu/projects/glove/">pretrained</a> word vectors, and then fed into a recurrent neural network, 
+        which has been trained on about 250000 <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/data">text samples</a>. 
+        The neural network predicts the probabilities of a given input text belonging to any of the six categories of verbal toxicity,
+        and finally, the prediction is returned in JSON format via the HTTP response.<a id="try"></a>
+      </p>
+      
+      <h3>Try it out</h3>
       <p>
         Type an input text into the text field below, post it to the ToxBlock
-        API, and get back the toxicity classification. The app may take a few
-        seconds to wake up.
+        API, and get back the toxicity classification. The API goes into
+        hibernation after being inactive for a while, so it may take a few seconds
+        to wake up again.
       </p>
       <form id="toxblock-form" action="" method="POST">
         <small
