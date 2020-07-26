@@ -482,6 +482,7 @@ a {
 
 .toxblock-app-status {
   color: #3498db;
+  font-weight: bold;
 }
 
 .toxblock-form-control {
