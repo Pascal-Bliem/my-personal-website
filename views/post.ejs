@@ -1,36 +1,54 @@
-<%- include("partials/header") -%> 
+<%- include("partials/header") -%>
 
 <!-- if user is logged in as admin, display a button for editing the post -->
-<% if ( isAdmin ) {%> 
+<% if ( isAdmin ) {%>
 <!-- option for editing the post as a admin -->
-<form class="ml-auto mr-auto" action="/edit/<%= title_lower %>" method="POST" style="padding: 3em;">
-    <button type="submit" class="btn btn-dark" value="<%= title_lower %>">Edit</button>
+<form
+  class="ml-auto mr-auto"
+  action="/edit/<%= title_lower %>"
+  method="POST"
+  style="padding: 3em"
+>
+  <button type="submit" class="btn btn-dark" value="<%= title_lower %>">
+    Edit
+  </button>
 </form>
-<% }%> 
+<% }%>
 
 <!-- The actual post page with title, title image, and body section -->
 <div class="container mt-5 post-page">
-    <div class="row">
-        <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-section">
-          <h1 class="post-title"><%= title %></h1>
-          <h2 class="post-subtitle"><%= subTitle %></h2>
-          <p class="post-date-published"><em>Posted on <%=datePublished.toLocaleDateString('de-DE')%> | Keywords: <strong><%= tags.join(" ") %></strong></em></p>
-        </div>
+  <div class="row">
+    <div
+      class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-section"
+    >
+      <h1 class="post-title"><%= title %></h1>
+      <h2 class="post-subtitle"><%= subTitle %></h2>
+      <p class="post-date-published">
+        <em
+          >Posted on <%=datePublished.toLocaleDateString('de-DE')%> | Keywords:
+          <strong><%= tags.join(" ") %></strong></em
+        >
+      </p>
     </div>
-    <div class="row">
-      <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-image-section">
-          <img class="post-title-image" src="<%= titleImage %>" alt="<%= titleImageAlt %>">
-      </div>
+  </div>
+  <div class="row">
+    <div
+      class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-image-section"
+    >
+      <img
+        class="post-title-image"
+        src="<%= titleImage %>"
+        alt="<%= titleImageAlt %>"
+      />
     </div>
-    <div class="row">
-        <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-body">
-            <%- content %>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-body">
+      <%- content %>
     </div>
-    <!-- script for auto-captioning the images from their alt text -->
-    <script src="../autocaption.js"></script>
+  </div>
+  <!-- script for auto-captioning the images from their alt text -->
+  <script src="../scripts/autocaption.js"></script>
 </div>
 
-        
-
-<%- include("partials/footer") -%> 
+<%- include("partials/footer") -%>

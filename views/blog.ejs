@@ -52,7 +52,7 @@
       <div class="col-lg-8 col-md-10 col-sm-12 ml-auto mr-auto post-title-body">
         <img class="post-title-image" src="<%= post.titleImage %>" alt="<%= post.titleImageAlt %>">
         <%- marked(post.content) _%>
-        <script id="getParentDiv" src="../shortener.js"></script>
+        <script id="getParentDiv" src="../scripts/shortener.js"></script>
         <%- `<a href='/blog/${post.title_lower}' class="stretched-link" style="float: right;">Read More</a>`_%>
     </div>
     </div>
