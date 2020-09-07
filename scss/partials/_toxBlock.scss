@@ -1,0 +1,163 @@
+.toxblock-title {
+    font-size: 6em;
+
+    @media (max-width: $default-breakpoint) {
+        font-size: 5em;
+    }
+}
+
+.tox-span {
+    font-family: "Creepster", cursive;
+    background: linear-gradient(#071a52 0%, #a7ff83 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.block-span {
+    font-family: "Bangers", cursive;
+    background: linear-gradient(#071a52 0%, #a7ff83 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.toxblock-img {
+    width: 100%;
+}
+
+.toxblock-post-button-div {
+    text-align: center;
+
+    @media (max-width: $default-breakpoint) {
+        padding-top: 0.5em;
+    }
+}
+
+.toxblock-post-button {
+    @media (max-width: $default-breakpoint) {
+        width: 80%;
+        height: 4rem;
+        font-size: 2.3rem;
+        vertical-align: middle;
+        text-align: center;
+    }
+}
+
+.toxblock-app-status {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.toxblock-form-control {
+    position: relative;
+    margin-top: 2em;
+    margin-bottom: 2em;
+
+    small {
+        color: #e74c3c;
+        position: absolute;
+        bottom: -20px;
+        /* needs to be made bigger with media query for smaller screen*/
+        left: 0;
+        visibility: hidden;
+
+        @media (max-width: $default-breakpoint) {
+            bottom: -45px;
+        }
+    }
+
+    &.error {
+        small {
+            visibility: visible;
+        }
+
+        .toxblock-input {
+            border-color: #e74c3c;
+        }
+    }
+}
+
+.toxblock-input {
+    border: 2px solid #f0f0f0;
+    width: 100%;
+    height: 5em;
+    border-radius: 5px;
+    display: block;
+    background-color: #f5fafa;
+}
+
+.toxblock-input:focus {
+    outline: 0;
+    border-color: #777;
+}
+
+.toxblock-chart {
+    margin: 3em 0.5em 1em;
+}
+
+.toxblock-bar-label {
+    width: 6em;
+    text-align: right;
+
+    @media (max-width: $default-breakpoint) {
+        padding-top: 0.5em;
+        width: 100%;
+        text-align: left;
+    }
+}
+
+.toxblock-bar-number {
+    display: inline;
+    vertical-align: top;
+
+    @media (max-width: $default-breakpoint) {
+        display: block;
+        padding: 0.27em;
+    }
+}
+
+.toxblock-bar {
+    background: blue;
+    height: 1.4em;
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    margin: 0 1em;
+    width: 1%;
+    /* from 1% to   81%   */
+    display: inline-block;
+    transition: width 400ms, opacity 200ms, box-shadow 200ms;
+
+    @media (max-width: $default-breakpoint) {
+        display: block;
+        padding-left: 0.25em;
+        height: 1.25em;
+    }
+}
+
+.toxblock-bar:hover {
+    opacity: 0.7;
+    box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+
+#toxic-bar {
+    background: #071a52;
+}
+
+#severe-toxic-bar {
+    background: #0a2a8a;
+}
+
+#obscene-bar {
+    background: #086972;
+}
+
+#insult-bar {
+    background: #4a8665;
+}
+
+#threat-bar {
+    background: #17b978;
+}
+
+#identity-hate-bar {
+    background: #a7ff83;
+}

@@ -1,0 +1,92 @@
+@import "partials/mixins";
+
+// import fonts 
+@include google-font("Varela+Round");
+@include google-font("Special+Elite");
+@include google-font("Pacifico");
+@include google-font("Creepster");
+@include google-font("Bangers");
+
+// sizes
+$font-size: 16px;
+$default-breakpoint: 1028px;
+$max-column-width: 45em;
+
+// color variables
+$primary-color: #eeeeee;
+$secondary-color: #00adb5;
+$ternary-color: #393e46;
+// $dark-text-color: use bootstrap standard dark grey
+$medium-text-color: #434b53;
+$light-text-color: #6b6f73;
+$link-color: grey;
+
+// general CSS that should apply in all places
+* {
+    box-sizing: border-box;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-size: $font-size;
+    text-align: center;
+    padding: 0;
+    font-family: "Varela Round";
+
+    @media (max-width: $default-breakpoint) {
+        font-size: 42px;
+    }
+}
+
+.section-sep {
+    height: 0;
+    width: 10%;
+    border-style: dotted none none none;
+    border-color: #4cbbb9;
+    border-width: 0.5em;
+    padding-top: 1em;
+}
+
+.section-heading {
+    font-size: 2.5em;
+    padding: 1.5em 0 0;
+    font-family: "Special Elite", sans-serif;
+}
+
+a {
+    color: $link-color;
+}
+
+// import navigation bar styles
+@import "partials/navbar";
+
+// import title section styles
+@import "partials/titleSection";
+
+// import about-me section styles
+@import "partials/aboutMeSection";
+
+// import blog post carousel section styles
+@import "partials/postCarouselSection";
+
+// import contact section styles
+@import "partials/contactBioSection";
+
+// import styles for the register, login, and compose cards
+@import "partials/registerLoginCompose";
+
+// import blog post page styles
+@import "partials/postPage";
+
+// import blog overview page styles
+@import "partials/blogPage";
+
+// import ToxBlock project page styles
+@import "partials/ToxBlock";
+
+// import footer styles
+@import "partials/footer";

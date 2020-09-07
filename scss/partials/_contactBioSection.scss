@@ -1,0 +1,37 @@
+/* Contact section */
+#contact {
+    background-color: $secondary-color;
+    padding: 5%;
+}
+
+.contact-box {
+    padding-top: 2em;
+}
+
+.contact-desc,
+.contact-icon {
+    font-size: 1.5em;
+}
+
+/* Bio section */
+.bio-box {
+    padding: 5%;
+    margin-bottom: 10%;
+    text-align: justify;
+
+    @media (max-width: $default-breakpoint) {
+        padding: 8%;
+
+        &:nth-child(1) {
+            margin-bottom: 4%;
+        }
+
+        &:nth-child(2) {
+            margin-bottom: 30%;
+        }
+    }
+}
+
+.bio-year-span {
+    font-weight: 600;
+}

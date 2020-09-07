@@ -1,0 +1,95 @@
+.blog-page-title-section {
+    background-image: url("../images/overtheclouds.jpg");
+    background-color: #688dc1;
+    height: 30em;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 1.5em;
+
+    @media (max-width: 1300px) {
+        height: 25em;
+    }
+
+    @media (max-width: $default-breakpoint) {
+        height: 50em;
+    }
+
+    .title-heading {
+        padding-top: 7%;
+
+        @media (max-width: $default-breakpoint) {
+            padding: 2em 0 0.5em;
+        }
+    }
+
+    .title-sub-heading {
+        @media (max-width: $default-breakpoint) {
+            padding: 0;
+            margin: 0;
+            margin-top: 1.5em;
+
+            &:last-child {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+.blog-page-posts-section {
+    padding-bottom: 15em;
+
+    .post-title-section {
+        padding: 1em 0;
+    }
+
+    .post-title {
+        font-size: 2em;
+    }
+
+    .post-subtitle {
+        font-size: 1.25em;
+    }
+
+    .post-date-published {
+        font-family: sans-serif;
+        font-style: italic;
+        color: $light-text-color;
+    }
+
+    .post-title-image-section {
+        padding: 0;
+    }
+
+    .post-title-image {
+        width: 50%;
+        float: left;
+        margin-right: 1em;
+    }
+
+    .post-title-body {
+        padding: 0;
+    }
+
+    .post-title-body h1,
+    .post-title-body h2,
+    .post-title-body h3,
+    .post-title-body h4,
+    .post-title-body h5,
+    .post-title-body h6 {
+        padding-top: 0;
+        font-size: 1.3em;
+    }
+
+    @media (max-width: 1300px) {
+        max-width: 970px;
+    }
+
+}
+
+.post-separator {
+    border: solid;
+    border-width: 0.05em;
+    border-color: lightgray;
+    background-color: lightgray;
+}

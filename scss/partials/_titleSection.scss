@@ -1,0 +1,188 @@
+/* Title section*/
+
+#title {
+    position: relative;
+    background-color: #0a3d5c;
+    background: url("../images/nightsky_large.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 65vh;
+    min-height: 30em;
+    z-index: 1;
+
+}
+
+// this makes the banner image look a little 
+// darker by overlaying a pseudo element with 
+// an increasing opacity animation
+#title::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    z-index: -1;
+    opacity: 0;
+    animation: darken-banner 1s linear 1s forwards;
+
+}
+
+@keyframes darken-banner {
+    0% {
+        opacity: 0.0;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+// also applies to the heading on the blog page
+.title-heading {
+    font-family: "Pacifico", sans-serif;
+    font-size: 5em;
+    font-weight: 550;
+    padding: 10% 5% 2%;
+
+    @media (max-width: $default-breakpoint) {
+        padding: 20% 5% 2%;
+    }
+}
+
+#title .title-heading {
+    color: $primary-color;
+    opacity: 0;
+    transform: translateY(+1.5em);
+    animation: fly-in 1s 1s ease-out forwards;
+
+}
+
+@keyframes fly-in {
+    0% {
+        opacity: 0;
+        transform: translateY(+1.5em);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// also applies to the sub heading on the blog page
+.title-sub-heading {
+    font-family: "Special Elite", sans-serif;
+    font-size: 2em;
+
+    @media (max-width: $default-breakpoint) {
+        font-size: 1.5em;
+        margin: 2em 0;
+    }
+}
+
+// this style is for the typing animation on the index page
+#title .title-sub-heading {
+    color: $primary-color;
+    // Ensures the content is not revealed until the animation
+    overflow: hidden;
+    // The typwriter cursor
+    border-right: .15em solid $primary-color;
+    // Keeps the content on a single line
+    white-space: nowrap;
+    //  Gives that scrolling effect as the typing happens
+    margin: 0 auto;
+
+    @media (max-width: $default-breakpoint) {
+        margin: 2rem auto;
+    }
+
+    letter-spacing: .1em;
+
+    visibility: hidden;
+}
+
+// make the typing happen consecutively per line
+#tsh1 {
+    animation:
+        typing-lg 2s 2s steps(30, end) forwards,
+        blink-caret 0.5s 2s 4;
+
+    @media (max-width: $default-breakpoint) {
+        animation:
+            typing-sm 2s 2s steps(30, end) forwards,
+            blink-caret 0.5s 2s 4;
+    }
+
+}
+
+#tsh2 {
+
+    animation:
+        typing-lg 2s 4s steps(30, end) forwards,
+        blink-caret 0.5s 4s 4;
+
+    @media (max-width: $default-breakpoint) {
+        animation:
+            typing-sm 2s 4s steps(30, end) forwards,
+            blink-caret 0.5s 4s 4;
+    }
+}
+
+#tsh3 {
+    animation:
+        typing-lg 2s 6s steps(30, end) forwards,
+        blink-caret 0.5s 6s 4;
+
+    @media (max-width: $default-breakpoint) {
+        animation:
+            typing-sm 2s 6s steps(30, end) forwards,
+            blink-caret 0.5s 6s 4;
+    }
+}
+
+//  The typing effect for large screen
+@keyframes typing-lg {
+    0% {
+        visibility: visible;
+        width: 0
+    }
+
+    100% {
+        visibility: visible;
+        border-right: none;
+    }
+
+    100% {
+        width: 400px;
+    }
+}
+
+//  The typing effect for small screen
+@keyframes typing-sm {
+    0% {
+        visibility: visible;
+        width: 0
+    }
+
+    100% {
+        visibility: visible;
+        border-right: none;
+        width: 100%;
+    }
+}
+
+//  The typewriter cursor effect
+@keyframes blink-caret {
+
+    0%,
+    100% {
+        border-color: $primary-color;
+    }
+
+    50% {
+        border-color: transparent;
+    }
+}

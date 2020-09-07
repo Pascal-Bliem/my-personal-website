@@ -1,0 +1,217 @@
+#about-me {
+    padding: 0 5%;
+}
+
+.me-image {
+    width: 25%;
+    text-align: center;
+    padding-bottom: 3%;
+    position: relative;
+
+    $widths: (1600px: 30%, $default-breakpoint: 80%);
+
+    @each $max-width,
+    $width in $widths {
+        @media (max-width: $max-width) {
+            width: $width;
+            padding: 7% 0;
+        }
+    }
+}
+
+.about-me-top {
+    text-align: center;
+    padding: 5% 15% 1%;
+
+    @media (max-width: $default-breakpoint) {
+        padding: 5% 5% 1%;
+    }
+
+}
+
+.about-me-paragraph {
+    text-align: justify;
+    margin: 0 auto;
+    max-width: $max-column-width;
+}
+
+@mixin blueish-glow {
+    box-shadow: 0 0 2px 1px rgba(0, 0, 50, 0.2);
+}
+
+.skill-box {
+    position: relative;
+    padding: 2%;
+    max-width: $max-column-width;
+    margin: 0 auto 1% auto;
+    transition: all 300ms;
+
+    &:hover {
+        background-color: darken($color: #fff, $amount: 3%);
+        @include blueish-glow;
+        transform: scale(1.01);
+        border-radius: 5px;
+
+        .skill-btn {
+            transform: scale(1);
+
+            &:active {
+                transform: scale(0.98);
+            }
+        }
+    }
+}
+
+.skill-icon {
+    width: 20%;
+    max-width: 7.5em;
+    float: left;
+    padding-right: 2%;
+
+    @media (max-width: $default-breakpoint) {
+
+        width: 40%;
+        float: none;
+        padding-bottom: 7%;
+        padding-top: 15%;
+
+    }
+
+}
+
+.skill-title {
+    text-align: left;
+    font-size: 1.5em;
+}
+
+.skill-desc {
+    text-align: justify;
+
+    @media (max-width: $default-breakpoint) {
+        padding-bottom: 2em;
+    }
+}
+
+.skill-btn {
+    position: absolute;
+    height: 2em;
+    right: 10%;
+    bottom: -1em;
+    background-color: $secondary-color;
+    border: none;
+    border-radius: 15px;
+    padding: 0 0.5em;
+    @include blueish-glow;
+    transition: transform 0.25s linear;
+    transform: scale(0);
+    z-index: 10;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        background-color: lighten($color: $secondary-color, $amount: 5%);
+    }
+}
+
+.other-things {
+    padding-bottom: 3em;
+}
+
+// here comes the part for the long skill description boxes
+// that will only show when the skill-btn are clicked
+.skill-long-container {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    &.visible {
+        visibility: visible;
+    }
+
+}
+
+.skill-long-box {
+    position: fixed;
+    width: 50%;
+    max-width: $max-column-width;
+    max-height: 70%;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 2em;
+    background-color: #fff;
+    opacity: 1;
+    z-index: 2;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid $primary-color;
+    @include blueish-glow;
+    // scroll properties
+    overflow-y: auto;
+    scrollbar-color: $secondary-color $primary-color;
+    scrollbar-width: thin;
+
+    @media (max-width: $default-breakpoint) {
+        width: 95%;
+        padding: 1em;
+    }
+
+    &::-webkit-scrollbar {
+        width: 0.5em;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $primary-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $secondary-color;
+        border-radius: 5px;
+        width: 0.3em;
+
+        &:hover {
+            background: lighten($color: $secondary-color, $amount: 5%);
+        }
+    }
+
+    .skill-long-close-btn {
+        background: transparent;
+        border: none;
+        position: absolute;
+        top: 2em;
+        right: 2em;
+        font-weight: bold;
+        color: #f2310d;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .skill-icon {
+        width: 40%;
+        float: none;
+        padding-bottom: 7%;
+    }
+
+    .skill-title {
+        text-align: center;
+    }
+
+
+    .skill-long-desc {
+        text-align: justify;
+    }
+}
+
+// TODO finsish the long description styles
