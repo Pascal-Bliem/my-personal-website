@@ -1,6 +1,10 @@
 .post-title-section {
     text-align: justify;
     padding: 1em 0;
+
+    @media (max-width: $default-breakpoint) {
+        margin-top: 3em;
+    }
 }
 
 .post-title {

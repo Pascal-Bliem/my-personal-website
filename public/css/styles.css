@@ -402,6 +402,9 @@ a {
 .post-title-section {
   text-align: justify;
   padding: 1em 0; }
+  @media (max-width: 1028px) {
+    .post-title-section {
+      margin-top: 3em; } }
 
 .post-title {
   font-family: "Special Elite", sans-serif;
