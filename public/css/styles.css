@@ -98,7 +98,7 @@ a {
 .title-heading {
   font-family: "Pacifico", sans-serif;
   font-size: 5em;
-  font-weight: 550;
+  font-weight: 100;
   padding: 10% 5% 2%; }
   @media (max-width: 1028px) {
     .title-heading {
@@ -401,10 +401,11 @@ a {
 
 .post-title-section {
   text-align: justify;
-  padding: 1em 0; }
+  padding: 5em 0 0; }
   @media (max-width: 1028px) {
     .post-title-section {
-      margin-top: 3em; } }
+      margin-top: 3em;
+      padding: 3em 0 0; } }
 
 .post-title {
   font-family: "Special Elite", sans-serif;
