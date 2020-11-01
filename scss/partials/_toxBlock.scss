@@ -1,7 +1,9 @@
 .toxblock-title {
+    padding-top: 50px;
     font-size: 6em;
 
     @media (max-width: $default-breakpoint) {
+        padding-top: 150px;
         font-size: 5em;
     }
 }

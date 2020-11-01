@@ -3,6 +3,7 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 @import url(https://fonts.googleapis.com/css?family=Creepster);
 @import url(https://fonts.googleapis.com/css?family=Bangers);
+@import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
 * {
   box-sizing: border-box; }
 
@@ -589,9 +590,11 @@ a {
   background-color: lightgray; }
 
 .toxblock-title {
+  padding-top: 50px;
   font-size: 6em; }
   @media (max-width: 1028px) {
     .toxblock-title {
+      padding-top: 150px;
       font-size: 5em; } }
 
 .tox-span {
@@ -715,6 +718,28 @@ a {
 
 #identity-hate-bar {
   background: #a7ff83; }
+
+.diarysta-title {
+  padding-top: 50px;
+  font-size: 6em;
+  font-family: "Architects Daughter", sans-serif;
+  color: #66bb6a;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.5); }
+  @media (max-width: 1028px) {
+    .diarysta-title {
+      font-size: 5em;
+      padding-top: 150px; } }
+
+.diarysta-img {
+  position: relative;
+  padding: 30px 0 50px;
+  text-align: center; }
+  .diarysta-img img {
+    position: relative;
+    width: 50%; }
+    @media (max-width: 1028px) {
+      .diarysta-img img {
+        width: 100%; } }
 
 /* Footer */
 #footer {

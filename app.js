@@ -31,6 +31,12 @@ app.use(homeAndBlogRoutes);
 const toxblockRoutes = require("./routes/toxblockRoutes");
 app.use(toxblockRoutes);
 
+// route for diarysta project
+app.get("/diarysta", (req, res) => {
+    res.render("diarysta", { pageTitle: "Diarysta" });
+});
+
+
 // start the app
 const PORT = process.env.PORT || 8081
 app.listen(PORT, function () { console.log(`Server started on port ${PORT}`) });

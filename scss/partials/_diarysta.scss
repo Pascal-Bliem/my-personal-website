@@ -1,0 +1,26 @@
+.diarysta-title {
+    padding-top: 50px;
+    font-size: 6em;
+    font-family: "Architects Daughter", sans-serif;
+    color: rgb(102, 187, 106);
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
+
+    @media (max-width: $default-breakpoint) {
+        font-size: 5em;
+        padding-top: 150px;
+    }
+}
+
+.diarysta-img {
+    position: relative;
+    padding: 30px 0 50px;
+    text-align: center;
+
+    & img {
+        position: relative;
+        width: 50%;
+        @media (max-width: $default-breakpoint) {
+            width: 100%;
+        }
+    }
+}

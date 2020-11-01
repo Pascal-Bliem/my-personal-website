@@ -6,6 +6,7 @@
 @include google-font("Pacifico");
 @include google-font("Creepster");
 @include google-font("Bangers");
+@include google-font("Architects+Daughter");
 
 // sizes
 $font-size: 16px;
@@ -87,6 +88,9 @@ a {
 
 // import ToxBlock project page styles
 @import "partials/ToxBlock";
+
+// import Diarysta project page styles
+@import "partials/diarysta";
 
 // import footer styles
 @import "partials/footer";
