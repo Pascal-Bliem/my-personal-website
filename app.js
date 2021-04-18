@@ -36,6 +36,10 @@ app.get("/diarysta", (req, res) => {
     res.render("diarysta", { pageTitle: "Diarysta" });
 });
 
+// route for Suara Jermanesia Podcast
+app.get("/suarajermanesia", (req, res) => {
+    res.render("suarajermanesia", { pageTitle: "Suara Jermanesia Podcast" });
+});
 
 // start the app
 const PORT = process.env.PORT || 8081
